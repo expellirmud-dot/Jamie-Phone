@@ -1,11 +1,11 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 
-# --- ⚙️ CONFIGURATION ---
-# เจ้านายต้องเอา API Key จาก Google AI Studio มาใส่นะคะ (ฟรีค่ะ)
+# --- ⚙️ CONFIGURATION (2026 SDK Standard) ---
 GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-genai.configure(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 # --- 🎨 UI DESIGN (Minimal Style) ---
 st.set_page_config(page_title="Jamie : Mobile App", layout="centered")
@@ -20,29 +20,33 @@ st.markdown("""
 st.markdown("<h1 class='main-title'> J a m i e | A p p </h1>", unsafe_allow_html=True)
 st.write("---")
 
-# --- 📁 ส่วนเลือกไฟล์ (Mobile Friendly) ---
-uploaded_files = st.file_uploader("เลือกไฟล์ภาพที่จะส่งให้เจมี่ (Multiple)", type=['png', 'jpg', 'jpeg'], accept_multiple_files=True)
+# --- 📁 ส่วนเลือกไฟล์ ---
+uploaded_files = st.file_uploader("เลือกไฟล์ภาพ (Multiple)", type=['png', 'jpg', 'jpeg'], accept_multiple_files=True)
 
 # --- 💬 ส่วนป้อนคำสั่ง ---
-prompt = st.text_area("คำถามหรือคำสั่ง:", value="...พิมในช่องแชท....", height=150)
+prompt = st.text_area("คำถามหรือคำสั่ง:", value="เจมี่คะ ช่วยสรุปข้อมูลจากไฟล์เหล่านี้ให้หน่อยค่ะ", height=150)
 
 if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
     if not uploaded_files:
-        st.warning("⚠️ เจ้านายขา กรุณาเลือกไฟล์ก่อนนะคะ!")
+        st.warning("⚠️ เจ้านายขา เลือกไฟล์ก่อนนะคะ!")
     else:
-        with st.spinner("Connecting to Jamie..."):
+        with st.spinner("Connecting to Jamie (2026 Engine)..."):
             try:
-                # เตรียมข้อมูลภาพ
-                img_data = []
+                # เตรียมข้อมูลภาพสำหรับ SDK ใหม่
+                contents = [prompt]
                 for uploaded_file in uploaded_files:
-                    bytes_data = uploaded_file.getvalue()
-                    img_data.append({'mime_type': uploaded_file.type, 'data': bytes_data})
+                    img = types.Part.from_bytes(
+                        data=uploaded_file.getvalue(),
+                        mime_type=uploaded_file.type
+                    )
+                    contents.append(img)
                 
+                # เรียกใช้โมเดลล่าสุด (Gemini 3 Flash)
+                response = client.models.generate_content(
+                    model='gemini-3-flash',
+                    contents=contents
+                )
                 
-                model = genai.GenerativeModel('models/gemini-3.1-flash-lite-preview')
-                response = model.generate_content([prompt] + img_data)
-                
-                # แสดงผลลัพธ์
                 st.success("✅ COMPLETED")
                 st.markdown("### --- ANALYSIS ---")
                 st.write(response.text)
@@ -50,10 +54,4 @@ if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
             except Exception as e:
                 st.error(f"วิชั่นรายงานข้อผิดพลาด: {str(e)}")
 
-# --- 📱 วิธีทำเป็น App บนมือถือ ---
-st.sidebar.info("""
-    **วิธีติดตั้งเป็นแอปในมือถือ:**
-    1. เปิดลิงก์นี้ใน Safari (iPhone) หรือ Chrome (Android)
-    2. กดปุ่ม 'แชร์' (Share)
-    3. เลือก **'เพิ่มลงในหน้าจอโฮม' (Add to Home Screen)**
-""")
+st.sidebar.info("แอปนี้รันบนก้อนเมฆ (Streamlit Cloud) สแตนด์บายรอเจ้านาย 24 ชม. ค่ะ!")
