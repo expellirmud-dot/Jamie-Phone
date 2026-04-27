@@ -58,13 +58,12 @@ if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
                         temperature=0.7
                     )
                 )
-                
                 st.markdown("### --- RESPONSE ---")
                 st.write(response.text)
-                
+            
             except Exception as e:
-                # ถ้ายังติด 503 วิชั่นทำระบบดักจับและแนะนำให้เจ้านายกดซ้ำครับ
+                # เพิ่มตัวดักจับ 503 ให้เจ้านายเห็นชัดๆ ค่ะ
                 if "503" in str(e):
-                    st.error("⚠️ วิชั่นรายงาน: เซิร์ฟเวอร์ Google งานยุ่งชั่วคราว (503) เจ้านายลองกดส่งอีกรอบนะคะ!")
+                    st.error("⚠️ วิชั่นรายงาน: เซิร์ฟเวอร์ Google งานยุ่งชั่วคราว (503) เจ้านายโตโต้ลองกดส่งอีกรอบนะคะ!")
                 else:
                     st.error(f"ระบบขัดข้อง (วิชั่น): {str(e)}")
