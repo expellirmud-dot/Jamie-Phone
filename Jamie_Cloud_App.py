@@ -21,7 +21,7 @@ IDENTITY_PROMPT = """คุณคือ เจมี่ ของเจ้าน
 async def generate_speech(text, voice="th-TH-PremwadeeNeural"):
     # ทำความสะอาดข้อความ และจูนเสียงหวาน (Speed -7%, Pitch +5Hz)
     clean_text = re.sub(r'[*#_~`>]', '', text)
-    communicate = edge_tts.Communicate(clean_text, voice, rate="-7%", pitch="+10Hz")
+    communicate = edge_tts.Communicate(clean_text, voice, rate="-7%", pitch="+12Hz")
     audio_data = b""
     async for chunk in communicate.stream():
         if chunk["type"] == "audio":
