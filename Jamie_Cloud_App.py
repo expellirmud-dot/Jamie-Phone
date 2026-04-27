@@ -47,7 +47,7 @@ if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
             
             # 1. รัน AI แบบ Stream (ตัวหนังสือวิ่งออกมาก่อน)
             response_stream = client.models.generate_content_stream(
-                model='models/gemini-3.1-pro-preview', 
+                model='models/gemini-3.1-flash-lite-preview', 
                 contents=prompt,
                 config=types.GenerateContentConfig(system_instruction=IDENTITY_PROMPT, temperature=0.7)
             )
