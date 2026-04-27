@@ -27,7 +27,7 @@ if st.button("SEND TEST", use_container_width=True):
             # 🚀 ใช้รุ่น 1.5 Flash (ตัวที่นิ่งที่สุดในประวัติศาสตร์)
             # ตัดการส่งรูปออกก่อนเพื่อเช็กเฉพาะ Text
             response = client.models.generate_content(
-                model='gemini-1.5-flash', 
+                model='models/gemini-3.1-flash-lite-preview', 
                 contents=prompt,
                 config={
                     "system_instruction": SYSTEM_MESSAGE,
