@@ -4,7 +4,7 @@ import os
 
 # --- ⚙️ CONFIGURATION ---
 # เจ้านายต้องเอา API Key จาก Google AI Studio มาใส่นะคะ (ฟรีค่ะ)
-GEMINI_API_KEY = "AIzaSyA1yq40-OosbenHvZ4DrD9u_Sy54nk6DlI"
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 
 # --- 🎨 UI DESIGN (Minimal Style) ---
