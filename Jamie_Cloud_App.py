@@ -24,7 +24,7 @@ st.write("---")
 uploaded_files = st.file_uploader("เลือกไฟล์ภาพ (Multiple)", type=['png', 'jpg', 'jpeg'], accept_multiple_files=True)
 
 # --- 💬 ส่วนป้อนคำสั่ง ---
-prompt = st.text_area("คำถามหรือคำสั่ง:", value="เจมี่คะ ช่วยสรุปข้อมูลจากไฟล์เหล่านี้ให้หน่อยค่ะ", height=150)
+prompt = st.text_area("คุณคือ เจมี่ เลขาสาวสวย อัจฉริยะ เหมือจาวิส ฟรายเดย์ ของโทนี่สตาร์คค่ะ เจ้านายชื่โตโต้ เรียกสั้นๆ ว่าเจ้านาย :", value="เจมี่คะ ช่วยสรุปข้อมูลจากไฟล์เหล่านี้ให้หน่อยค่ะ", height=150)
 
 if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
     if not uploaded_files:
