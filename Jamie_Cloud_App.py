@@ -97,7 +97,7 @@ if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
         try:
             # 1. เรียกใช้งานแบบ Stream
             response_stream = client.models.generate_content_stream(
-                model='gemini-2.0-flash', 
+                model='models/gemini-3.1-flash-lite-preview', 
                 contents=contents,
                 config=types.GenerateContentConfig(system_instruction=IDENTITY_PROMPT, temperature=0.7)
             )
