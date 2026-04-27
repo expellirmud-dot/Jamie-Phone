@@ -34,25 +34,28 @@ uploaded_files = st.file_uploader("ส่งไฟล์ให้ระบบว
 # --- 💬 ส่วนป้อนคำสั่ง ---
 prompt = st.text_area("คำสั่งจากเจ้านาย:", placeholder="เช่น... เจมี่ดูรูปงานแต่งนี้หน่อย หรือ วิชั่นแก้โค้ดตรงนี้ให้ที", height=120)
 
-if st.button("Send", use_container_width=True, type="primary"):
+if st.button("SEND TO JAMIE", use_container_width=True, type="primary"):
     if not prompt:
         st.warning("⚠️ เจ้านายขา ลืมใส่คำสั่งหรือเปล่าคะ?")
     else:
-        with st.spinner("..System Processing.."):
+        with st.spinner("..J.A.V.I.S. System Processing.."):
             try:
                 contents = [prompt]
                 if uploaded_files:
                     for uploaded_file in uploaded_files:
-                        img = types.Part.from_bytes(data=uploaded_file.getvalue(), mime_type=uploaded_file.type)
+                        img = types.Part.from_bytes(
+                            data=uploaded_file.getvalue(), 
+                            mime_type=uploaded_file.type
+                        )
                         contents.append(img)
                 
-                # 🚀 เรียกใช้โมเดลพร้อมใส่ System Instruction
+                # 🚀 เรียกใช้โมเดล (แนะนำให้ใช้ gemini-3-flash-preview จะนิ่งกว่า Lite มากครับ)
                 response = client.models.generate_content(
-                    model='models/gemini-3.1-flash-lite-preview',
+                    model='models/gemini-3.1-flash-lite-preview', 
                     contents=contents,
                     config=types.GenerateContentConfig(
                         system_instruction=IDENTITY_PROMPT,
-                        temperature=0.7 # เพิ่มความสร้างสรรค์ให้เจมี่นิดนึงค่ะ
+                        temperature=0.7
                     )
                 )
                 
@@ -60,4 +63,8 @@ if st.button("Send", use_container_width=True, type="primary"):
                 st.write(response.text)
                 
             except Exception as e:
-                st.error(f"ระบบขัดข้อง (วิชั่น): {str(e)}")
+                # ถ้ายังติด 503 วิชั่นทำระบบดักจับและแนะนำให้เจ้านายกดซ้ำครับ
+                if "503" in str(e):
+                    st.error("⚠️ วิชั่นรายงาน: เซิร์ฟเวอร์ Google งานยุ่งชั่วคราว (503) เจ้านายลองกดส่งอีกรอบนะคะ!")
+                else:
+                    st.error(f"ระบบขัดข้อง (วิชั่น): {str(e)}")
