@@ -34,11 +34,11 @@ uploaded_files = st.file_uploader("ส่งไฟล์ให้ระบบว
 # --- 💬 ส่วนป้อนคำสั่ง ---
 prompt = st.text_area("คำสั่งจากเจ้านาย:", placeholder="เช่น... เจมี่ดูรูปงานแต่งนี้หน่อย หรือ วิชั่นแก้โค้ดตรงนี้ให้ที", height=120)
 
-if st.button("EXECUTE COMMAND", use_container_width=True, type="primary"):
+if st.button("Send", use_container_width=True, type="primary"):
     if not prompt:
         st.warning("⚠️ เจ้านายขา ลืมใส่คำสั่งหรือเปล่าคะ?")
     else:
-        with st.spinner("J.A.V.I.S. System Processing..."):
+        with st.spinner("..System Processing.."):
             try:
                 contents = [prompt]
                 if uploaded_files:
