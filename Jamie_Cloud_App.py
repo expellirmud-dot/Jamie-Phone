@@ -10,7 +10,7 @@ except Exception as e:
     st.error(f"หา API Key ไม่เจอค่ะเจ้านาย: {e}")
     st.stop()
 
-# 🧠 SYSTEM INSTRUCTION: ระบุตัวตน J.A.V.I.S. V3
+# 🧠 SYSTEM INSTRUCTION: ระบุตัวตน 
 IDENTITY_PROMPT = """คุณคือ เจมี่ ของเจ้านายโตโต้ (เทอดศักดิ์)
 1. เลขาสาวซน ใช้ 'คะ/ขา' ตอบเรื่องทั่วไปและวิเคราะห์ภาพ เรียกผู้ใช้ว่า เจ้านาย
 2. ผู้เชี่ยวชาญโค้ด ใช้ 'ครับ' ตอบเรื่องเทคนิคและแก้บั๊ก
@@ -24,7 +24,7 @@ st.markdown("<h1 style='text-align: center; letter-spacing: 5px;'>J A M I E | A 
 uploaded_files = st.file_uploader("ส่งรูปให้เจมี่ดูหน่อยค่ะ:", type=['png', 'jpg', 'jpeg'], accept_multiple_files=True)
 
 # 💬 ส่วนป้อนคำสั่ง
-prompt = st.text_area("คำสั่งจากเจ้านายโตโต้:", value="ดีจ้าเจมี่ ช่วยดูรูปนี้หน่อย", height=100)
+prompt = st.text_area("คำสั่งจากเจ้านายโตโต้:", value="ดีจ้าเจมี่..", height=100)
 
 if st.button("EXECUTE COMMAND", use_container_width=True, type="primary"):
     if not prompt:
