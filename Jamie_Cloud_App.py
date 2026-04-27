@@ -48,7 +48,7 @@ if st.button("EXECUTE COMMAND", use_container_width=True, type="primary"):
                 
                 # 🚀 เรียกใช้โมเดลพร้อมใส่ System Instruction
                 response = client.models.generate_content(
-                    model='gemini-3-flash',
+                    model='models/gemini-3.1-flash-lite-preview',
                     contents=contents,
                     config=types.GenerateContentConfig(
                         system_instruction=IDENTITY_PROMPT,
